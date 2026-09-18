@@ -256,7 +256,8 @@ export const DATA = {
       name: "Laravel Developer Playbook",
       desc: "A personal collection of database designs, coding patterns, and tips I use for Laravel projects.",
       tag: "PLAYBOOK",
-      url: "https://www.notion.so/313b98734365800ab923f2f3ff22062d?v=313b98734365804bb69c000cf0323e78&source=copy_link",
+      url: "https://madronajane.gumroad.com/l/yrzirk",
+      cta: "I want this",
       icon: <FileText className="w-4 h-4" />
     },
     {
@@ -264,6 +265,7 @@ export const DATA = {
       desc: "A guide on setting up SMS alerts and message queues in Laravel.",
       tag: "TUTORIAL",
       url: "https://www.notion.so/313b98734365803f8906db614451dacc?v=313b98734365804bb69c000cf0323e78&source=copy_link",
+      cta: "Access Notion",
       icon: <FileText className="w-4 h-4" />
     }
   ],

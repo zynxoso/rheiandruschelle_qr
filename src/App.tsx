@@ -992,7 +992,7 @@ function App() {
                             rel="noopener noreferrer"
                             className="w-full text-center inline-block py-3 border border-black bg-black text-white hover:bg-transparent hover:text-black transition-colors duration-300 font-black text-[9px] tracking-widest uppercase select-none rounded-sm"
                           >
-                            Access Notion
+                            {product.cta || "Access Notion"}
                           </a>
                         </motion.div>
                       ))}
