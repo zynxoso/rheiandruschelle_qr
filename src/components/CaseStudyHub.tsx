@@ -40,10 +40,10 @@ const CASE_STUDY_CATALOG: CaseStudySummary[] = [
     kicker: 'Public service case study',
     title: 'CLSU ABE Scholarship Portal (ERDT PRISM).',
     role: 'Lead Developer',
-    context: 'CLSU ABE • University Portal',
+    context: 'CLSU ABE • TALL Stack • Hostinger',
     summary:
-      'Digitized graduate scholarship intake and staff evaluation for CLSU ABE. Applicants submit documentation online while staff review, track, and manage applications in a centralized database.',
-    stack: ['PHP', 'MySQL', 'Responsive UI', 'Form Validation'],
+      'Digitized graduate scholarship intake and staff evaluation for CLSU ABE using the TALL stack (Tailwind CSS, Alpine.js, Laravel, Livewire) and MySQL, hosted on Hostinger. Applicants submit documentation online while staff review, track, and manage applications in real time.',
+    stack: ['TALL Stack', 'Laravel', 'Livewire', 'Alpine.js', 'Tailwind CSS', 'Hostinger'],
     image: '/gallery/prism.png',
     imageAlt: 'CLSU PRISM Scholarship Portal live interface at clsu-erdt.com',
     link: 'https://clsu-erdt.com/',

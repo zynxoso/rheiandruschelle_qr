@@ -91,7 +91,7 @@ export const DATA = {
         name: "Scholarship Portal",
         role: "Application and review system",
         statement: "Graduate applications move from paper forms to one review path.",
-        stack: ["PHP", "MySQL", "Responsive UI", "Form validation"],
+        stack: ["TALL Stack", "Laravel", "Livewire", "Alpine.js", "Tailwind CSS", "Hostinger"],
         image: "/gallery/prism.png",
         imageAlt: "CLSU PRISM Scholarship Portal application interface",
         url: "https://clsu-erdt.com/",
@@ -110,9 +110,9 @@ export const DATA = {
           },
           implementation: {
             eyebrow: "Working stack",
-            headline: "The interface follows the application sequence, not the database.",
-            body: "PHP and MySQL support the workflow. The responsive interface groups related requirements so applicants can work through the form in a predictable order.",
-            trace: ["PHP", "MySQL", "Responsive UI", "Structured review"],
+            headline: "Engineered with the TALL stack and deployed on Hostinger.",
+            body: "Laravel and Livewire power the server-side reactivity and form handling, Alpine.js and Tailwind CSS drive the UI, and MySQL manages application records. The production portal is hosted on Hostinger for high reliability.",
+            trace: ["Laravel", "Livewire + Alpine", "Tailwind CSS", "Hostinger Deploy"],
           },
         },
         actions: [
@@ -229,12 +229,12 @@ export const DATA = {
     {
       name: "Scholarship Portal",
       role: "Lead Developer",
-      desc: "I built a scholarship portal for master’s and PhD applicants of CLSU ABE. It replaced the paper submission path with an online application and a structured review workflow for administrators.",
+      desc: "I built a scholarship portal for master’s and PhD applicants of CLSU ABE using the TALL stack (Tailwind CSS, Alpine.js, Laravel, Livewire) and MySQL, hosted on Hostinger. It replaced paper applications with an online submission and review workflow.",
       icon: <Terminal className="w-5 h-5" />,
       url: "https://clsu-erdt.com/",
       caseStudy: "scholarship",
       pinned: true,
-      tags: ["PHP", "MySQL", "CLSU", "Workflow"]
+      tags: ["TALL Stack", "Laravel", "Livewire", "Hostinger"]
     },
     {
       name: "Barangay System",
@@ -442,9 +442,9 @@ export const DATA = {
       title: "PRISM Scholarship Portal",
       category: "Web Development",
       img: "/gallery/prism.png",
-      desc: "Interface designs for the CLSU PRISM scholarship project.",
+      desc: "Live interface designs for the CLSU PRISM scholarship project built with the TALL stack on Hostinger.",
       date: "Oct 2025",
-      tech: ["Web Dev", "PHP", "MySQL", "UI/UX"],
+      tech: ["TALL Stack", "Laravel", "Livewire", "Hostinger"],
       verified: true
     },
     {

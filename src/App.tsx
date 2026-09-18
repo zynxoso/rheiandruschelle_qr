@@ -764,9 +764,9 @@ function App() {
                                       Website <ExternalLink className="w-2.5 h-2.5 ml-1" />
                                     </a>
                                   </div>
-                                  <p className="text-[11px] font-bold uppercase tracking-wider text-black/60">Lead Developer</p>
+                                  <p className="text-[11px] font-bold uppercase tracking-wider text-black/60">Lead Developer • TALL Stack • Hostinger</p>
                                   <p className="text-[11px] leading-relaxed opacity-80 font-medium max-w-prose">
-                                    I built CLSU's scholarship site to handle online applications and student record reviews.
+                                    I built CLSU's scholarship site with the TALL stack (Tailwind CSS, Alpine.js, Laravel, Livewire) hosted on Hostinger to handle online applications and student record reviews.
                                   </p>
                                 </div>
 
