@@ -22,6 +22,9 @@ export type ProofLedgerProject = {
   role: string
   statement: string
   stack: string[]
+  image: string
+  imageAlt: string
+  url?: string
   modes: Record<ProofLedgerMode, {
     eyebrow: string
     headline: string
@@ -54,6 +57,9 @@ export const DATA = {
         role: "Service request system",
         statement: "Paper requests become records staff can review and track.",
         stack: ["Laravel 12", "React 19", "Inertia 2", "Gemini AI", "MySQL"],
+        image: "/gallery/ict_login.png",
+        imageAlt: "CLSU ICT Service Request System interface",
+        url: "https://github.com/zynxoso/CLSU_AIRA-LOGIX",
         modes: {
           outcome: {
             eyebrow: "Delivered workflow",
@@ -86,6 +92,9 @@ export const DATA = {
         role: "Application and review system",
         statement: "Graduate applications move from paper forms to one review path.",
         stack: ["PHP", "MySQL", "Responsive UI", "Form validation"],
+        image: "/gallery/prism.png",
+        imageAlt: "CLSU PRISM Scholarship Portal application interface",
+        url: "https://clsu-erdt.com/",
         modes: {
           outcome: {
             eyebrow: "Delivered workflow",
@@ -118,6 +127,9 @@ export const DATA = {
         role: "AI video production tool",
         statement: "One idea becomes a structured pack for AI video production.",
         stack: ["React", "AI video", "Script builder", "Veo", "Tailwind CSS"],
+        image: "/gallery/AI3DTO.png",
+        imageAlt: "AITO AI 3D Talking Objects script creation studio",
+        url: "https://ai-3-dto.vercel.app/",
         modes: {
           outcome: {
             eyebrow: "Delivered product",

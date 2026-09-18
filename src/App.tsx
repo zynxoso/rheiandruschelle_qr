@@ -19,13 +19,14 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DATA } from './data'
 import { ProjectCaseStudy } from './components/ProjectCaseStudy'
+import { CaseStudyHub } from './components/CaseStudyHub'
 import { ProjectProofLedger } from './components/ProjectProofLedger'
 import { trackPortfolioEvent } from './analytics'
 
 const PORTFOLIO_TABS = ['main', 'case-study', 'resume', 'digital', 'templates', 'gallery'] as const
 type PortfolioTab = typeof PORTFOLIO_TABS[number]
 
-function readNavigationState(): { tab: PortfolioTab; caseStudy: string } {
+function readNavigationState(): { tab: PortfolioTab; caseStudy: string | null } {
   const params = new URLSearchParams(window.location.search)
   const requestedTab = params.get('view')
   const tab = PORTFOLIO_TABS.includes(requestedTab as PortfolioTab)
@@ -34,15 +35,15 @@ function readNavigationState(): { tab: PortfolioTab; caseStudy: string } {
 
   return {
     tab,
-    caseStudy: params.get('project') || 'aira',
+    caseStudy: params.get('project') || null,
   }
 }
 
-function getTabHref(tab: PortfolioTab, caseStudy = 'aira') {
+function getTabHref(tab: PortfolioTab, caseStudy: string | null = null) {
   const params = new URLSearchParams()
 
   if (tab !== 'main') params.set('view', tab)
-  if (tab === 'case-study') params.set('project', caseStudy)
+  if (tab === 'case-study' && caseStudy) params.set('project', caseStudy)
 
   const query = params.toString()
   return query ? `${import.meta.env.BASE_URL}?${query}` : import.meta.env.BASE_URL
@@ -50,7 +51,7 @@ function getTabHref(tab: PortfolioTab, caseStudy = 'aira') {
 
 function App() {
   const [activeTab, setActiveTab] = useState<PortfolioTab>(() => readNavigationState().tab)
-  const [activeCaseStudy, setActiveCaseStudy] = useState(() => readNavigationState().caseStudy)
+  const [activeCaseStudy, setActiveCaseStudy] = useState<string | null>(() => readNavigationState().caseStudy)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoading] = useState(false)
   const [isIntroComplete] = useState(true)
@@ -110,9 +111,9 @@ function App() {
     }
   }, [isDarkMode])
 
-  const toggleTab = (tab: PortfolioTab, caseStudyId = activeCaseStudy) => {
+  const toggleTab = (tab: PortfolioTab, caseStudyId: string | null = null) => {
     setActiveTab(tab)
-    if (tab === 'case-study') setActiveCaseStudy(caseStudyId)
+    setActiveCaseStudy(tab === 'case-study' ? caseStudyId : null)
     setIsMenuOpen(false)
     window.history.pushState({}, '', getTabHref(tab, caseStudyId))
     window.scrollTo({ top: 0, behavior: 'auto' })
@@ -271,7 +272,7 @@ function App() {
                 return (
                   <motion.a
                     key={tab}
-                    href={getTabHref(tab, activeCaseStudy)}
+                    href={getTabHref(tab, null)}
                     aria-current={isActive ? 'page' : undefined}
                     variants={{
                       hidden: { opacity: 0, x: -10 },
@@ -550,17 +551,23 @@ function App() {
 
               {activeTab === 'case-study' && (
                 <motion.div
-                  key="case-study"
+                  key={activeCaseStudy ? `case-study-${activeCaseStudy}` : 'case-study-hub'}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -16 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   className="h-full"
                 >
-                  <ProjectCaseStudy
-                    caseStudyId={activeCaseStudy}
-                    onBack={() => toggleTab('main')}
-                  />
+                  {activeCaseStudy ? (
+                    <ProjectCaseStudy
+                      caseStudyId={activeCaseStudy}
+                      onBack={() => toggleTab('case-study', null)}
+                    />
+                  ) : (
+                    <CaseStudyHub
+                      onSelectCaseStudy={(id) => toggleTab('case-study', id)}
+                    />
+                  )}
                 </motion.div>
               )}
 

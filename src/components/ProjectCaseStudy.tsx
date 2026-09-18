@@ -54,6 +54,10 @@ const caseStudies = {
       ['03', 'Build', 'Developed the application with Laravel 12, React 19, Inertia 2, MySQL, and Gemini-powered document extraction.', 'Working full-stack service request system'],
       ['04', 'Validate', 'Presented the system to ICT directors and checked the workflow against the day-to-day needs of the office.', 'Stakeholder review and iteration priorities'],
     ],
+    heroImage: '/gallery/ict_login.png',
+    heroImageAlt: 'CLSU ICT Service Request System sign-in and interface',
+    heroImageLabel: 'System UI',
+    heroImageCaption: 'CLSU MISO service request portal interface',
     image: '/gallery/ojt_grad_presentation.jpg',
     imageAlt: 'Jan Harry Madrona presenting the AIRA system to CLSU ICT directors',
     imageLabel: 'Stakeholder validation',
@@ -113,6 +117,10 @@ const caseStudies = {
       ['03', 'Build', 'Created the React interface and connected the product flow to AI video-oriented generation tools.', 'Working script creation studio'],
       ['04', 'Refine', 'Reviewed whether each output could move directly into the next production step with minimal rewriting.', 'Clearer prompts and output hierarchy'],
     ],
+    heroImage: '/gallery/AI3DTO.png',
+    heroImageAlt: 'AITO AI 3D Talking Objects product interface workspace',
+    heroImageLabel: 'Creation Studio UI',
+    heroImageCaption: 'AITO generation workspace and script engine interface',
     image: '/gallery/AI3DTO.png',
     imageAlt: 'AITO AI 3D Talking Objects product interface',
     imageLabel: 'Product interface',
@@ -172,6 +180,10 @@ const caseStudies = {
       ['03', 'Build', 'Developed the public application experience and the supporting PHP and MySQL workflow.', 'Working scholarship portal'],
       ['04', 'Review', 'Checked the interface against real applicant information and staff review needs.', 'Refined submission and record views'],
     ],
+    heroImage: '/gallery/prism.png',
+    heroImageAlt: 'CLSU PRISM Scholarship Portal live interface at clsu-erdt.com',
+    heroImageLabel: 'Portal Landing UI',
+    heroImageCaption: 'CLSU ERDT PRISM public graduate scholarship portal',
     image: '/gallery/prism.png',
     imageAlt: 'CLSU PRISM Scholarship Portal interface',
     imageLabel: 'Portal interface',
@@ -202,7 +214,7 @@ export function ProjectCaseStudy({ onBack, caseStudyId }: ProjectCaseStudyProps)
       <div className="case-study-shell">
         <button type="button" onClick={onBack} className="case-study-back">
           <ArrowLeft aria-hidden="true" />
-          <span>Back to projects</span>
+          <span>Back to case studies</span>
         </button>
 
         <header className="case-study-hero">
@@ -230,6 +242,44 @@ export function ProjectCaseStudy({ onBack, caseStudyId }: ProjectCaseStudyProps)
             ))}
           </dl>
         </header>
+
+        {study.heroImage && (
+          <div className="case-study-preview-frame">
+            <div className="browser-frame">
+              <div className="browser-frame-bar">
+                <div className="browser-frame-dots">
+                  <span className="dot dot-red" />
+                  <span className="dot dot-yellow" />
+                  <span className="dot dot-green" />
+                </div>
+                <div className="browser-frame-address">
+                  <span>{study.link.replace(/^https?:\/\//, '')}</span>
+                </div>
+                <a
+                  href={study.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="browser-frame-external"
+                  aria-label={`Open ${study.title} live link`}
+                >
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+              <div className="browser-frame-screen">
+                <img
+                  src={study.heroImage}
+                  alt={study.heroImageAlt}
+                  className="browser-frame-img"
+                  loading="eager"
+                />
+              </div>
+            </div>
+            <div className="browser-frame-caption">
+              <span className="caption-label">{study.heroImageLabel}</span>
+              <p>{study.heroImageCaption}</p>
+            </div>
+          </div>
+        )}
 
         <section className="impact-block" aria-labelledby="impact-heading">
           <div className="impact-title-wrap">
