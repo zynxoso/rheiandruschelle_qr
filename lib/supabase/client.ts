@@ -1,16 +1,17 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database";
 
-const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  "https://ocyyiceylxrmuezpfkyl.supabase.co";
+const DEFAULT_SUPABASE_URL = "https://ocyyiceylxrmuezpfkyl.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_uUkIKmAaeqyBRlCyrgr6Vw_3mkBvE0o";
 
-const supabaseAnonKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "sb_publishable_uUkIKmAaeqyBRlCyrgr6Vw_3mkBvE0o";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
 
 export function createClient() {
-  return createSupabaseClient<Database>(supabaseUrl, supabaseAnonKey, {
+  const url = supabaseUrl && supabaseUrl.trim() !== "" ? supabaseUrl : DEFAULT_SUPABASE_URL;
+  const key = supabaseAnonKey && supabaseAnonKey.trim() !== "" ? supabaseAnonKey : DEFAULT_SUPABASE_ANON_KEY;
+
+  return createSupabaseClient<Database>(url, key, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
@@ -77,5 +78,6 @@ export function getPhotoPublicUrl(storagePath: string): string {
   if (storagePath.startsWith("http://") || storagePath.startsWith("https://")) {
     return storagePath;
   }
-  return `${supabaseUrl}/storage/v1/object/public/wedding-photos/${storagePath}`;
+  const base = supabaseUrl && supabaseUrl.trim() !== "" ? supabaseUrl : DEFAULT_SUPABASE_URL;
+  return `${base}/storage/v1/object/public/wedding-photos/${storagePath}`;
 }
