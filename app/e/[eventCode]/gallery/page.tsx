@@ -26,14 +26,22 @@ export default async function LiveGalleryPage({ params }: PageProps) {
     year: "numeric",
   });
 
-  // Fetch initial photos on server side for fast first paint
-  const supabase = await createClient();
-  const { data: initialPhotos } = await supabase
-    .from("photos")
-    .select("*")
-    .eq("event_id", event.id)
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false });
+  let initialPhotos: Photo[] = [];
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("photos")
+      .select("*")
+      .eq("event_id", event.id)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false });
+
+    if (!error && data) {
+      initialPhotos = data as Photo[];
+    }
+  } catch (err) {
+    console.warn("Could not query gallery photos:", err);
+  }
 
   return (
     <FloralFrame showCorners={true}>
@@ -49,7 +57,7 @@ export default async function LiveGalleryPage({ params }: PageProps) {
           eventId={event.id}
           eventCode={event.event_code}
           coupleNames={coupleNames}
-          initialPhotos={(initialPhotos as Photo[]) || []}
+          initialPhotos={initialPhotos}
         />
       </main>
     </FloralFrame>

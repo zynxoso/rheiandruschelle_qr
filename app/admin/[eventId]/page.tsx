@@ -17,19 +17,27 @@ export default async function AdminDashboardPage({ params }: PageProps) {
     notFound();
   }
 
-  // Fetch photos including soft-deleted ones for moderation overview
-  const adminClient = createAdminClient();
-  const { data: photos } = await adminClient
-    .from("photos")
-    .select("*")
-    .eq("event_id", event.id)
-    .order("created_at", { ascending: false });
+  let photos: Photo[] = [];
+  try {
+    const adminClient = createAdminClient();
+    const { data, error } = await adminClient
+      .from("photos")
+      .select("*")
+      .eq("event_id", event.id)
+      .order("created_at", { ascending: false });
+
+    if (!error && data) {
+      photos = data as Photo[];
+    }
+  } catch (err) {
+    console.warn("Could not query photos in admin dashboard:", err);
+  }
 
   return (
     <main className="min-h-screen bg-[#FDFBF7] text-[#242D35] pb-24">
       <AdminDashboardClient
         initialEvent={event}
-        initialPhotos={(photos as Photo[]) || []}
+        initialPhotos={photos}
       />
     </main>
   );

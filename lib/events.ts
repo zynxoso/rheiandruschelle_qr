@@ -36,24 +36,32 @@ export const DEFAULT_EVENT: WeddingEvent = {
 /**
  * Retrieves an event by its unique event_code.
  * If the event is the default Rhein & Ruschelle event and not yet in the DB,
- * automatically attempts to seed it into PostgreSQL.
+ * automatically attempts to seed it into PostgreSQL, with resilient fallback.
  */
 export async function getEventByCode(eventCode: string): Promise<WeddingEvent | null> {
-  const normalizedCode = eventCode.toLowerCase().trim();
-  const supabase = await createClient();
+  const normalizedCode = (eventCode || "").toLowerCase().trim();
 
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("event_code", normalizedCode)
-    .single();
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("event_code", normalizedCode)
+      .single();
 
-  if (!error && data) {
-    return data as WeddingEvent;
+    if (!error && data) {
+      return data as WeddingEvent;
+    }
+  } catch (err) {
+    console.warn("Could not query events table:", err);
   }
 
-  // If this is the default event code, ensure it exists in database
-  if (normalizedCode === "rhein-ruschelle-2026" || normalizedCode === "default") {
+  // If this is the default event code, ensure it exists or return default
+  if (
+    normalizedCode === "rhein-ruschelle-2026" ||
+    normalizedCode === "default" ||
+    normalizedCode === ""
+  ) {
     try {
       const adminClient = createAdminClient();
       const { data: inserted, error: insertError } = await adminClient
@@ -77,7 +85,7 @@ export async function getEventByCode(eventCode: string): Promise<WeddingEvent | 
         return inserted as WeddingEvent;
       }
     } catch {
-      // Table may not have been created yet, return in-memory default
+      // Table may not exist yet, return in-memory default
     }
     return DEFAULT_EVENT;
   }
@@ -86,19 +94,22 @@ export async function getEventByCode(eventCode: string): Promise<WeddingEvent | 
 }
 
 /**
- * Retrieves an event by its UUID.
+ * Retrieves an event by its UUID with resilient fallback.
  */
 export async function getEventById(eventId: string): Promise<WeddingEvent | null> {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("id", eventId)
+      .single();
 
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("id", eventId)
-    .single();
-
-  if (!error && data) {
-    return data as WeddingEvent;
+    if (!error && data) {
+      return data as WeddingEvent;
+    }
+  } catch (err) {
+    console.warn("Could not query event by ID:", err);
   }
 
   if (eventId === DEFAULT_EVENT.id) {

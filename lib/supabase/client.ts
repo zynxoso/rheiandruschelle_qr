@@ -1,8 +1,13 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ocyyiceylxrmuezpfkyl.supabase.co";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  "https://ocyyiceylxrmuezpfkyl.supabase.co";
+
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  "sb_publishable_uUkIKmAaeqyBRlCyrgr6Vw_3mkBvE0o";
 
 export function createClient() {
   return createSupabaseClient<Database>(supabaseUrl, supabaseAnonKey, {
@@ -34,7 +39,8 @@ export async function getOrCreateGuestSession(): Promise<string> {
     }
 
     // Try signing in anonymously via Supabase Auth
-    const { data: anonData, error: anonError } = await supabase.auth.signInAnonymously();
+    const { data: anonData, error: anonError } =
+      await supabase.auth.signInAnonymously();
     if (!anonError && anonData?.user?.id) {
       return anonData.user.id;
     }
@@ -44,9 +50,13 @@ export async function getOrCreateGuestSession(): Promise<string> {
 
   // Fallback: persistent client-side guest UUID stored in localStorage
   const LOCAL_STORAGE_KEY = "wedding_moments_guest_id";
-  const existingLocalId = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (existingLocalId) {
-    return existingLocalId;
+  try {
+    const existingLocalId = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (existingLocalId) {
+      return existingLocalId;
+    }
+  } catch {
+    // LocalStorage might be restricted
   }
 
   // Generate a random RFC4122 v4 UUID
