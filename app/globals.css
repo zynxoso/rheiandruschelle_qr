@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #FDFBF7;
+    --foreground: #242D35;
+    --primary: #E26D5C;
+    --secondary: #9B8EB9;
+    --accent: #8FA8CF;
+    --buttercup: #F3CA68;
+    --sage: #8DA38B;
+    --mint: #A2C5AC;
+    --sand: #E9DECB;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Typography Utility Classes */
+.font-script {
+  font-family: var(--font-great-vibes), cursive, Georgia, serif;
+}
+
+.font-serif {
+  font-family: var(--font-cormorant), Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.font-sans {
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Smooth Soft Glow Effects */
+.shadow-soft {
+  box-shadow: 0 10px 30px -10px rgba(226, 109, 92, 0.12), 0 4px 12px -2px rgba(155, 142, 185, 0.08);
+}
+
+/* Print Rules for Table QR Cards */
+@media print {
+  body {
+    background: white !important;
+  }
+  header, nav, button, .no-print {
+    display: none !important;
+  }
+  #printable-qr-card {
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+}

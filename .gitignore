@@ -1,34 +1,48 @@
-# Logs
-logs
-*.log
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/cache
+
+# Testing
+/coverage
+
+# Next.js build output
+/.next/
+/out/
+/build
+dist
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+.pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment files
+.env*.local
+.env
 
-# Editor directories and files
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE & Tooling
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-graphify-out
-.agent
-resume.tex
-resume.cls
-.cursor
-.agent
-.agents
-
-# Local installer binaries
-public/laravel installers/
+.idea/
+.cursor/
+.agent/
+.agents/
+.obsidian-brain/
+graphify-out/
