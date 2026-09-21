@@ -68,6 +68,7 @@ export function PhotoPreview({
       setStatusMessage("Uploading your moment...");
 
       // 2. Upload file to Supabase Storage bucket 'wedding-photos'
+      let uploadSuccess = false;
       const { error: storageError } = await supabase.storage
         .from("wedding-photos")
         .upload(storagePath, compressed.file, {
@@ -76,25 +77,54 @@ export function PhotoPreview({
           upsert: true,
         });
 
-      if (storageError) {
-        throw new Error(`Storage upload failed: ${storageError.message}`);
+      if (!storageError) {
+        setUploadProgress(85);
+        setStatusMessage("Registering in shared gallery...");
+
+        // 3. Save photo metadata to Supabase PostgreSQL table 'photos'
+        const { error: dbError } = await supabase.from("photos").insert({
+          id: photoId,
+          event_id: eventId,
+          guest_id: guestId,
+          storage_path: storagePath,
+          caption: caption.trim() || null,
+          created_at: new Date().toISOString(),
+        });
+
+        if (!dbError) {
+          uploadSuccess = true;
+        } else {
+          console.warn("Client DB insert failed, attempting server route:", dbError);
+        }
+      } else {
+        console.warn("Client storage upload failed, attempting server route:", storageError);
       }
 
-      setUploadProgress(85);
-      setStatusMessage("Registering in shared gallery...");
+      // If client direct upload encountered RLS policy restrictions, fallback to /api/upload
+      if (!uploadSuccess) {
+        setStatusMessage("Completing upload via server...");
+        setUploadProgress(75);
 
-      // 3. Save photo metadata to Supabase PostgreSQL table 'photos'
-      const { error: dbError } = await supabase.from("photos").insert({
-        id: photoId,
-        event_id: eventId,
-        guest_id: guestId,
-        storage_path: storagePath,
-        caption: caption.trim() || null,
-        created_at: new Date().toISOString(),
-      });
+        const formData = new FormData();
+        formData.append("file", compressed.file);
+        formData.append("eventId", eventId);
+        formData.append("guestId", guestId);
+        if (caption.trim()) {
+          formData.append("caption", caption.trim());
+        }
 
-      if (dbError) {
-        throw new Error(`Database record failed: ${dbError.message}`);
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const json = await res.json();
+        if (!res.ok || json.error) {
+          throw new Error(
+            json.error ||
+            "Upload failed. Please ensure supabase/schema.sql has been run in your Supabase SQL Editor."
+          );
+        }
       }
 
       setUploadProgress(100);
